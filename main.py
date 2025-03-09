@@ -1,4 +1,3 @@
-
 # main.py
 
 from retrieval.api_client import AlphaVantageClient

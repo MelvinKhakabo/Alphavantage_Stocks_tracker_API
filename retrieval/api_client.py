@@ -39,7 +39,11 @@ class AlphaVantageClient:
         for symbol in SYMBOLS:
             data = self.fetch_stock_data(symbol)
             if data and "Time Series (Daily)" in data:
-                all_data[symbol] = data["Time Series (Daily)"]
+                # Get the last 5 days of data
+                time_series = data["Time Series (Daily)"]
+                # Sort dates and take the most recent 5
+                sorted_dates = sorted(time_series.keys(), reverse=True)[:5]
+                all_data[symbol] = {date: time_series[date] for date in sorted_dates}
             time.sleep(12)  # Delay ~12 seconds to stay under 5 calls/minute
         return all_data
 
@@ -47,4 +51,4 @@ if __name__ == "__main__":
     client = AlphaVantageClient()
     data = client.get_all_symbols_data()
     for symbol, time_series in data.items():
-        print(f"{symbol}: {list(time_series.keys())[:2]}...")  # Preview first 2 days
+        print(f"{symbol}: {list(time_series.keys())}")

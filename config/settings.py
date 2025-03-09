@@ -1,3 +1,4 @@
+
 # config/settings.py
 
 import os
@@ -8,7 +9,7 @@ load_dotenv()
 
 # Alpha Vantage API settings
 BASE_URL = "https://www.alphavantage.co/query"
-SYMBOLS = ["IBM", "AAPL"]  # Example stocks (change as needed)
+SYMBOLS = ["AAPL", "MSFT", "GOOGL", "AMZN", "META", "NVDA", "TSLA", "INTC", "IBM", "CSCO"]
 FUNCTION = "TIME_SERIES_DAILY"  # Daily time series
 API_KEY = os.getenv("API_KEY")
 
