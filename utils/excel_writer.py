@@ -80,6 +80,29 @@ def write_to_excel(data):
         summary_filename = f"stock_summary_{today}.xlsx"
         summary_filepath = os.path.join(OUTPUT_DIR, summary_filename)
         summary_df.to_excel(summary_filepath, index=False)
+        
+        # Add analysis row for most volatile, biggest gainer, and biggest loser
+        most_volatile = summary_df.loc[summary_df["Volatility (%)"].idxmax()]
+        biggest_gainer = summary_df.loc[summary_df["Change (%)"].idxmax()]
+        biggest_loser = summary_df.loc[summary_df["Change (%)"].idxmin()]
+        
+        analysis_row = pd.DataFrame([{
+            "Date": "Analysis",
+            "Symbol": "Most Volatile: " + most_volatile["Symbol"],
+            "Open": "Biggest Gainer: " + biggest_gainer["Symbol"],
+            "High": "Biggest Loser: " + biggest_loser["Symbol"],
+            "Low": "",
+            "Close": "",
+            "Volume": "",
+            "Daily Range": "",
+            "Volatility (%)": most_volatile["Volatility (%)"],
+            "Change (%)": f"{biggest_gainer['Change (%)']}/{biggest_loser['Change (%)']}"
+        }])
+        
+        # Append analysis row to summary file
+        with pd.ExcelWriter(summary_filepath, mode='a', engine='openpyxl', if_sheet_exists='overlay') as writer:
+            analysis_row.to_excel(writer, index=False, sheet_name='Sheet1', startrow=len(summary_df) + 2)
+        
         print(f"Summary data written to {summary_filepath}")
     else:
         print("No summary data to write to Excel.")
