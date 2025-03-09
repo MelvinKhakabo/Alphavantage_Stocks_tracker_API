@@ -14,7 +14,7 @@ A Python application that fetches daily stock data for the top 10 tech companies
 ## Setup
 1. Install dependencies: `pip install -r requirements.txt`
 2. Create a `.env` file with your Alpha Vantage API key:
- API_KEY=your_api_key_here
+ API_KEY=api_key_here
 3. Activate virtual environment: `source venv/Scripts/activate`
 4. Run: `python main.py`
 
